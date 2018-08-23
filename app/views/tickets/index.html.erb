@@ -1,0 +1,33 @@
+<h2>Tickets</h2>
+
+<%= form_tag tickets_path, method: :get, enforce_utf8: false do |f| %>
+  <p>
+    Show tickets from 
+    <%= select_tag :project, options_for_select(Project.all.map{|p| [p.name, p.id] }, selected: params[:project]), {
+      include_blank: 'All Projects'
+    } %>
+     with status 
+    <%= select_tag :status, options_for_select(Ticket.statuses.keys, selected: params[:status]), {
+      include_blank: 'Any status'
+    } %>
+     tagged 
+    <%= select_tag :tag, options_for_select(Tag.all.map{|t| [t.name, t.id]}, selected: params[:tag]), {
+      include_blank: '-'
+    } %>
+  </p>
+  <%= submit_tag 'Update', name: nil %>
+<% end %>
+<%= link_to 'Clear Filters', tickets_path %>
+
+<% if @tickets.empty? %>
+  <p>
+    There are no tickets matching the selected filters.
+    <%= link_to 'Clear filters and show all tickets', tickets_path %>
+  </p>
+<% else %>
+  <%= render 'list', tickets: @tickets %>
+<% end %>
+
+<% if logged_in? %>
+  <%= link_to 'New Ticket', new_ticket_path %>
+<% end %>  

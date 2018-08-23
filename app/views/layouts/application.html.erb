@@ -10,6 +10,12 @@
   </head>
 
   <body>
-    <%= yield %>
+    <header>
+      <%= render 'layouts/navigation' %>
+      <%= render 'layouts/messages' %>
+    </header>
+    <main>
+      <%= yield %>
+    </main>
   </body>
 </html>

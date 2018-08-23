@@ -1,0 +1,39 @@
+<%= render 'shared/errors', obj: @ticket %>
+
+<%= form_for @ticket do |f| %>
+  <div>
+    <%= f.label :project_id, 'Project' %>
+    <%= f.select(:project_id) do %>
+      <% @projects.each do |project| %>
+        <%= content_tag(:option, project.name, value: project.id) %>
+      <% end %>
+    <% end %>
+  </div>
+  <div>
+    <%= f.label :name %>
+    <%= f.text_field :name %>
+  </div>
+  <div>
+    <%= f.label :body %>
+    <%= f.text_area :body %>
+  </div>
+  <div>
+    <%= f.label :status %>
+    <%= f.select(:status) do %>
+      <% Ticket.statuses.keys.each do |status| %>
+        <%= content_tag(:option, status, value: status) %>
+      <% end %>
+    <% end %>
+  </div>
+  <div>
+    <%= f.label :assignee_id, 'Assigned To' %>
+    <%= f.collection_select(:assignee_id, User.all, :id, :name, include_blank: 'No One') %>
+  </div>
+  <div>
+    <%= f.label :tag_ids, 'Tags' %>
+    <%= f.select(:tag_ids, Tag.all.map{ |t| [t.name, t.id] }, {}, multiple: true)  %>
+  </div>
+  <div>
+    <%= f.submit @ticket.new_record? ? 'Create' : 'Update' %>
+  </div>
+<% end %>

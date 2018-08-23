@@ -1,0 +1,36 @@
+<h2>Tags</h2>
+
+<% if @tags.empty? %>
+  <p>There are currently no tags</p>
+<% else %>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Tickets</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @tags.each do |tag| %>
+        <tr>
+          <td>
+            <%= tag[0][1] %>
+          </td>
+          <td>
+            <%= link_to tag[1], tickets_path(tag: tag[0][0]) %>
+          </td>
+          <% if logged_in? %>
+            <td>
+              <%= link_to 'Edit', edit_tag_path(tag[0][0]) %> or 
+              <%= link_to 'Destroy', tag_path(tag[0][0]), method: :delete, data: { confirm: 'Are you sure?'} %>
+            </td>
+          <% end %>  
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% end %>
+
+<% if logged_in? %>
+  <%= link_to 'New Tag', new_tag_path %>
+<% end %>

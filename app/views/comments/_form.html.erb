@@ -1,0 +1,18 @@
+<%= render 'shared/errors', obj: @comment %>
+
+<%= form_for [@ticket, @comment] do |f| %>
+  <div>
+    <%= f.label :body, (@comment.new_record? ? 'Add a comment' : 'Edit comment') %>
+    <%= f.text_area :body %>
+  </div>
+  <div>
+    <%= fields_for @ticket do |s| %>
+      <%= s.label :status, 'Update Ticket Status' %>
+      <%= s.select :status, formatted_statuses, include_blank: 'Do not change' %>
+    <% end %>
+  </div>
+  <div>
+    <%= f.submit @comment.new_record? ? 'Create Comment' : 'Update Comment' %> or 
+    <%= link_to 'cancel', ticket_path(@ticket) %>
+  </div>
+<% end %>

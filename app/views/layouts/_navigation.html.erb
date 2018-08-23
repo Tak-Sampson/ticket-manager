@@ -1,0 +1,16 @@
+<nav>
+  <h1>Ticketing</h1>
+  <%= link_to 'Projects', projects_path %>
+  <%= link_to 'Tickets', tickets_path %>
+  <%= link_to 'Tags', tags_path %>
+  <% if logged_in? %>
+    <div>
+      Signed in as <%= current_user.name %>
+      <%= link_to 'Logout', logout_path %>
+    </div>    
+  <% else %>
+    <div>
+      <%= link_to 'Login', '/login' %> or <%= link_to 'Signup', '/register' %>
+    </div>
+  <% end %>
+</nav>

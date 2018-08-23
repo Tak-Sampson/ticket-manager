@@ -1,0 +1,34 @@
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Assignee</th>
+      <th>Status</th>
+      <th>Tags</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% tickets.each do |ticket| %>
+      <tr>
+        <td>
+          <%= link_to ticket.name, ticket_path(ticket) %>
+        </td>
+        <td>
+          <%= format_assignee(ticket) %>
+        </td>
+        <td>
+          <%= format_status(ticket.status) %>
+        </td>
+        <td>
+          <%= format_tags(ticket.tags) %>
+        </td>
+        <% if logged_in? %>
+          <td>
+            <%= link_to 'Edit', edit_ticket_path(ticket) %>
+            <%= link_to 'Destroy', ticket, method: :delete, data: { confirm: 'Are you sure?'} %>
+          </td>
+        <% end %>  
+      </tr>
+    <% end %>
+  </tbody>
+</table>

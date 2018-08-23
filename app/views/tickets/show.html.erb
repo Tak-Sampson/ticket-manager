@@ -1,0 +1,44 @@
+<h1><%= @ticket.name %></h1>
+<p><%= @ticket.body %></p>
+
+<% if logged_in? %>
+  <%= link_to 'Edit', edit_ticket_path(@ticket) %>
+  <%= link_to 'Delete', @ticket, method: :delete, data: { confirm: 'Are you sure?'} %>
+<% end %>  
+
+<dl>
+  <dt>Status</dt>
+  <dd>
+    <%= format_status(@ticket.status) %>    
+  </dd>
+  <dt>Creator</dt>
+  <dd>
+    <%= @ticket.creator.name %>
+  </dd>
+  <dt>Assignee</dt>
+  <dd>
+    <%= format_assignee(@ticket) %>
+  </dd>
+</dl>
+
+<h2>Comments</h2>
+<% if logged_in? %>
+  <%= render 'comments/form' %>
+<% end %>
+
+<ul>
+  <% @ticket.comments.each do |comment| %>
+    <li>
+      <p><%= comment.body %></p>
+      <span>
+        Created by <%= comment.creator.name %> 
+        <%= elapsed_time(comment.created_at) %> ago - updated 
+        <%= elapsed_time(comment.updated_at) %> ago
+      </span>
+      <% if comment.user_id == current_user.id %>
+        <%= link_to 'Edit', edit_ticket_comment_path(@ticket, comment) %>
+        <%= link_to 'Delete', ticket_comment_path(@ticket, comment), method: :delete, data: { confirm: 'Are you sure?' } %>
+      <% end %>
+    </li>
+  <% end %>
+</ul>

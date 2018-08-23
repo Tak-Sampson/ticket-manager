@@ -1,0 +1,38 @@
+<h1>Projects</h1>
+
+<% if @projects.empty? %>
+  <p>There are currently no Projects</p>
+<% else %>  
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Open Tickets</th>
+        <th>Total Tickets</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @projects.each do |project| %>
+        <tr>
+          <th>
+            <%= link_to project.name, project_path(project) %>
+            <br />
+            <%= project.description %>
+          </th>
+          <th>
+            <%=  project.tickets.count{|t| !t.status_fixed? }  %>
+          </th>
+          <th>
+            <%= project.tickets.length %>
+          </th>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% end %>
+
+<% if logged_in? %>
+  <div>
+    <%= link_to 'New Project', new_project_path %>
+  </div>
+<% end %> 

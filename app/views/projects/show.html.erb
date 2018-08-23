@@ -1,0 +1,9 @@
+<h1><%= @project.name %></h1>
+<p><%= @project.description %></p>
+
+<% if logged_in? %>
+  <%= link_to 'Edit', edit_project_path(@project) %>
+  <%= link_to 'Delete', @project, method: :delete, data: { confirm: 'Are you sure?'} %>
+<% end %>
+
+<%= render 'tickets/list', tickets: @project.tickets %>
